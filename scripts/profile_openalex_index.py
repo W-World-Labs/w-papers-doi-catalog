@@ -3,6 +3,7 @@ import argparse
 import cProfile
 import gzip
 import pstats
+import shutil
 import sys
 import tempfile
 import time
@@ -19,16 +20,18 @@ def main():
     parser.add_argument("--dataset-version", required=True)
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix="openalex-profile-") as directory:
+        shard = Path(directory) / "input.gz"
+        shutil.copyfile(args.shard, shard)
         tmp = Path(directory) / "profile.sqlite"
         initialize(tmp)
         db = connect(tmp)
         try:
-            expected = sum(1 for line in gzip.open(args.shard, "rt") if line.strip())
+            expected = sum(1 for line in gzip.open(shard, "rt") if line.strip())
             print("records in shard:", expected, flush=True)
             start = time.time()
             prof = cProfile.Profile()
             prof.enable()
-            count = _index_works(args.shard, db, args.dataset_version, expected, tmp, 0)
+            count = _index_works(shard, db, args.dataset_version, expected, tmp, 0)
             prof.disable()
             print(f"indexed {count} in {time.time() - start:.1f}s")
             pstats.Stats(prof).sort_stats("tottime").print_stats(18)

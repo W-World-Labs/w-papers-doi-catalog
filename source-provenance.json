@@ -8,7 +8,7 @@
     "Real operating IPs/sites/contact values replaced by documentation examples; original assertion structure retained.",
     "Private CI excluded in favor of one standard PUBLIC GitHub source workflow.",
     "Private deployment inventory removed from documentation; generic templates and bounded operator tools retained.",
-    "Profiler accepts a local shard/version and a fresh temporary scratch database; existing indexing/profiling algorithm retained.",
+    "Profiler accepts a local shard/version and a copied shard and fresh temporary scratch database; existing indexing/profiling algorithm retained.",
     "Historical increment unit has a generic example name.",
     "Authorized new MIT grant, original author names and separate software/data notices added."
   ],
@@ -202,8 +202,8 @@
       "sha256": "c3a9c0c932a9b19913977c3c77d1a19713ef7de67451e01251bba7a5a1578c8a"
     },
     "scripts/profile_openalex_index.py": {
-      "bytes": 1343,
-      "sha256": "5c9af702c00c6ea50eb152adfaa2bd762af41289d79b945f14ffbf56ffbed8d8"
+      "bytes": 1435,
+      "sha256": "5f5a72301365dc4e8d491bb388c8e0e9a6117f1ee87863de6d98d7763ca1ca8b"
     },
     "scripts/source-artifact.py": {
       "bytes": 5845,
