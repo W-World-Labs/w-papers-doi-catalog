@@ -1,0 +1,20 @@
+[Unit]
+Description=Maintain and back up W Papers DOI Catalog cache
+After=w-papers-doi-catalog.service
+
+[Service]
+Type=oneshot
+User=w-doi-catalog
+Group=w-doi-catalog
+WorkingDirectory=/opt/w/apps/w-papers-doi-catalog
+EnvironmentFile=/etc/w/w-papers-doi-catalog.service.env
+ExecStart=/opt/w/apps/w-papers-doi-catalog/.venv/bin/python -m app.maintenance
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/w-data/w-papers-doi-catalog
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX

@@ -1,0 +1,33 @@
+http://198.51.100.10 {
+	handle /.well-known/acme-challenge/* {
+		root * /var/www/letsencrypt
+		file_server
+	}
+
+	handle {
+		redir https://198.51.100.10{uri} permanent
+	}
+}
+
+https://198.51.100.10 {
+	tls /etc/letsencrypt/live/198.51.100.10/fullchain.pem /etc/letsencrypt/live/198.51.100.10/privkey.pem
+
+	handle /.well-known/acme-challenge/* {
+		root * /var/www/letsencrypt
+		file_server
+	}
+
+	@health path /health /api/health
+	handle @health {
+		reverse_proxy 127.0.0.1:55221
+	}
+
+	@production_client remote_ip 198.51.100.20
+	handle @production_client {
+		reverse_proxy 127.0.0.1:55221
+	}
+
+	handle {
+		respond "client IP is not allowed" 403
+	}
+}

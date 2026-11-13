@@ -1,0 +1,289 @@
+{
+  "project": "w-papers-doi-catalog",
+  "distribution": "complete independent DOI/cache/OpenAlex software source; no data payload",
+  "license": "MIT for W-owned software and synthetic fixtures; external dependencies and data retain terms",
+  "history": "new public root; no private Git history imported",
+  "exporter": "w-cli github export 1.5.21; full tracked export reviewed before public preparation",
+  "transformations": [
+    "Real operating IPs/sites/contact values replaced by documentation examples; original assertion structure retained.",
+    "Private CI excluded in favor of one standard PUBLIC GitHub source workflow.",
+    "Private deployment inventory removed from documentation; generic templates and bounded operator tools retained.",
+    "Profiler accepts a local shard/version and a fresh temporary scratch database; existing indexing/profiling algorithm retained.",
+    "Historical increment unit has a generic example name.",
+    "Authorized new MIT grant, original author names and separate software/data notices added."
+  ],
+  "files": {
+    ".env.example": {
+      "bytes": 1427,
+      "sha256": "f9a2d4faa3b7449b39d210d7ddc66a4bb7af5cc6c3bf930f128084a4119da96a"
+    },
+    ".github/workflows/source.yml": {
+      "bytes": 2931,
+      "sha256": "158db1b798f92caf740d3986e6b58718e28961b15d77bf43d6c9ab774d51f85f"
+    },
+    ".gitignore": {
+      "bytes": 80,
+      "sha256": "31b5850bf7a986ff05d215be9d7ee00cf4a38faa8d608af3887e21cb73e127d7"
+    },
+    "AGENTS.md": {
+      "bytes": 1723,
+      "sha256": "df2dc28c6515a94f9cc4a5e41ef515ca0a00343a3ccd3e96c76ab7173ff64de8"
+    },
+    "AUTHORS.md": {
+      "bytes": 468,
+      "sha256": "8e54912beb83649437e07c4752a3215aa0da1866b01a12326336a48fa395a921"
+    },
+    "LICENSE": {
+      "bytes": 1082,
+      "sha256": "d1526c3ba050a1a223cc7047bb7c6bccbaf5c2032e9ccc9848115fbfa60b5d7f"
+    },
+    "NOTICE.md": {
+      "bytes": 2114,
+      "sha256": "b5627fd30c7d0406fd4eaf0327f9a083e919dbfb4384199deac48851708acf7c"
+    },
+    "PUBLIC_SOURCE.md": {
+      "bytes": 1777,
+      "sha256": "ebb1f04eb7e326c96f0f9435927077f7486f4ab7f460a39221d23d88be76d1e3"
+    },
+    "README.md": {
+      "bytes": 5031,
+      "sha256": "b9bba5efe0a87c4965a119ff3f9ced78b49d39f1fb79cbded4c7311510541ed4"
+    },
+    "app/__init__.py": {
+      "bytes": 51,
+      "sha256": "0e93c61cd7117b709b1533e86e32ec3aa66a40a63a22673cc91cf6e7b2215bd5"
+    },
+    "app/adapters/__init__.py": {
+      "bytes": 174,
+      "sha256": "0cef93bce30e423d5def01014082efea4c8538832f79766a653736dd5a27a915"
+    },
+    "app/adapters/http_providers.py": {
+      "bytes": 7681,
+      "sha256": "1ffbc37cb669a64e5035fffe7ac2ff00cd099463da876ede423de1b41626523f"
+    },
+    "app/adapters/sqlite_cache.py": {
+      "bytes": 6126,
+      "sha256": "b4171e0fc13eb3c54eb32a5ac7bebd6ab34f4f6d372c7b8364ef7ce4e266b502"
+    },
+    "app/application/__init__.py": {
+      "bytes": 228,
+      "sha256": "29eee9eb8bad0dcab9087ebab1ac480213db1e7d63d2662190981d6143709967"
+    },
+    "app/application/errors.py": {
+      "bytes": 367,
+      "sha256": "1fb6b6110479a2fd8bba31e5c11bfe802740876aa6649bc27c05169f1f33ba74"
+    },
+    "app/application/ports.py": {
+      "bytes": 704,
+      "sha256": "09c88bda48c2cbd5eeffcc429cc0ce1bcdf1daf5e3ef666960b3e77242550350"
+    },
+    "app/application/use_cases.py": {
+      "bytes": 2620,
+      "sha256": "c04170a1c687ef355c2976cb1dabbbfead54ac85c5c5a5adfb36b4eaf0ff754c"
+    },
+    "app/config.py": {
+      "bytes": 5696,
+      "sha256": "06ecdaa6583a354729eb53c868c34e1505bc720d49648692a0d6ce443dbc75c1"
+    },
+    "app/domain/__init__.py": {
+      "bytes": 83,
+      "sha256": "82cff474c83aa4a02adfc723098a2d697a7231fe9272958a7a4b597e775603f4"
+    },
+    "app/domain/models.py": {
+      "bytes": 3419,
+      "sha256": "7c96251be5a8d12a333e93c49639834a84f27c823b2c5c3ab91205690e65e90c"
+    },
+    "app/main.py": {
+      "bytes": 5067,
+      "sha256": "4b5894e09c4d9fd1d7cd34ae7219a15e77ca331f3104714d76c003f0c0fc85d5"
+    },
+    "app/maintenance.py": {
+      "bytes": 1778,
+      "sha256": "8372fef431f2ea2cd3ccc4afc85009689712db397c266257cbd470989ff07efd"
+    },
+    "app/openalex_api.py": {
+      "bytes": 6875,
+      "sha256": "88939f05a77e4cf458a48fe81d5e5f41970653158f9547a8eefcf345ca8e4c80"
+    },
+    "app/openalex_article_trial.py": {
+      "bytes": 3484,
+      "sha256": "54bdf516036b90e6e9263f2e1bd8bdd8cc4b4d7606836e51745f3f95b0dd0d48"
+    },
+    "app/openalex_catalog.py": {
+      "bytes": 14501,
+      "sha256": "6f5f662ea4102b5549eb67ec1a20a9bb7bdc7ec00609a1c6ba3ba6c7758faec4"
+    },
+    "app/openalex_increment.py": {
+      "bytes": 11306,
+      "sha256": "54b2373b4dcac670c522156ed18cb8eb69b4ae0f9128dd861998d91406e1009e"
+    },
+    "app/openalex_increment_sqlite.py": {
+      "bytes": 862,
+      "sha256": "76ad58558eac33f2f694aef119120527369312b66905e0ca9848b383ed2529c6"
+    },
+    "app/openalex_snapshot.py": {
+      "bytes": 54151,
+      "sha256": "9498bd469b846d584b0f292e860d1819e607e88e2cb22f079e18c3e5bd7eeacd"
+    },
+    "app/server.py": {
+      "bytes": 1858,
+      "sha256": "9bab858cdb961a57b3fec0ca17c926b23ee777da258ee4bed6eb217cd568d91f"
+    },
+    "app/web/__init__.py": {
+      "bytes": 30,
+      "sha256": "5b77fa3bd9fc79f3314e43d0333597e8879b2106ff9c83bbd73e041647834f47"
+    },
+    "app/web/metrics.py": {
+      "bytes": 1754,
+      "sha256": "3d708e913d0a471e352084fd282914b60920d090f4cd110ba48ce2f88994b41b"
+    },
+    "app/web/middleware.py": {
+      "bytes": 1068,
+      "sha256": "b6b6a17d0daee4587e2ebd3d42e6c043bbdd5e74224e5e906568b45ddc0ebec0"
+    },
+    "deploy/caddy-acme-bootstrap.Caddyfile": {
+      "bytes": 248,
+      "sha256": "aec62163bf77ff76b747fcc0d5dd36729305252158915b908b0dc2d7e5c3b794"
+    },
+    "deploy/caddy-ip-tls.Caddyfile": {
+      "bytes": 641,
+      "sha256": "656497de0a1bb268b6b6512b374f5ff038216d7e56ae663d89deb307b250603c"
+    },
+    "deploy/renew-ip-certificate.sh": {
+      "bytes": 205,
+      "sha256": "b971e2ee4df8ec82f6220eab78183a9b0f2e2712081af7297f1c02a8f0f62489"
+    },
+    "deploy/verify-ip-certificate.sh": {
+      "bytes": 324,
+      "sha256": "edff9ca8b731639096138448a0503f38920637f449ae76d9d4b4d4c63c772468"
+    },
+    "deploy/w-openalex-download": {
+      "bytes": 3319,
+      "sha256": "e7c80b644bc24ab0ec41225dbd2002b2ae1e733d9ed617b9a6dde5bfe0422d94"
+    },
+    "deploy/w-papers-doi-catalog-maintenance.service": {
+      "bytes": 582,
+      "sha256": "6b5dfe6c40606f08bea11f4a0f017f2fcf508451bfa03cf440499008c4fa7314"
+    },
+    "deploy/w-papers-doi-catalog-maintenance.timer": {
+      "bytes": 216,
+      "sha256": "ec8fdb26c202418353e912e431cc819a08f0bd0cf33ae2988670829e2672dc21"
+    },
+    "deploy/w-papers-doi-catalog.service": {
+      "bytes": 745,
+      "sha256": "4d95c6cda9064bc4be0261beb0b3d50b01e6174992062f0e4fc93e98f4b618bb"
+    },
+    "deploy/w-papers-doi-cert-renew.service": {
+      "bytes": 573,
+      "sha256": "5ff20e46fc2a24bac9e2fdfb4082fe53a9ef7c5c8e48fdf681a02afaf1af390b"
+    },
+    "deploy/w-papers-doi-cert-renew.timer": {
+      "bytes": 227,
+      "sha256": "bccbaa263818de4384c3c81e836c35a51d9824c60024991056159e45eff56d60"
+    },
+    "deploy/w-papers-openalex-increment.service": {
+      "bytes": 852,
+      "sha256": "3ff7d198caef6af90c8a18a169338f9d94274e4f68ae1a70d8d65b1f55e4d21b"
+    },
+    "deploy/w-papers-openalex-sync.service": {
+      "bytes": 958,
+      "sha256": "d694c3c59aa0f0730d01ba73bae6e47066a0443e49d8e8507478b41261787f5a"
+    },
+    "deploy/w-papers-openalex.service": {
+      "bytes": 956,
+      "sha256": "a41d9d945f3d25fb4bcbfefd732139e1cc63ac173fc75ba4f1fde667babbb259"
+    },
+    "requirements.txt": {
+      "bytes": 57,
+      "sha256": "266becb4a8e5f95bd509c40b7b6e1748e1ef22d7a14b4bbbe134a1da971b363f"
+    },
+    "scripts/README.md": {
+      "bytes": 846,
+      "sha256": "c3a9c0c932a9b19913977c3c77d1a19713ef7de67451e01251bba7a5a1578c8a"
+    },
+    "scripts/profile_openalex_index.py": {
+      "bytes": 1343,
+      "sha256": "5c9af702c00c6ea50eb152adfaa2bd762af41289d79b945f14ffbf56ffbed8d8"
+    },
+    "scripts/source-artifact.py": {
+      "bytes": 5845,
+      "sha256": "dd6e5b7709f1c65a32c47938f04d0da1ec94a04e6cb5e3ba1961228cfc795038"
+    },
+    "scripts/verify_openalex_bulk.py": {
+      "bytes": 13402,
+      "sha256": "21c936e237b9d406acd6f0e939e48866e0bb9c838c8987b052f767bb713535cb"
+    },
+    "tests/__init__.py": {
+      "bytes": 20,
+      "sha256": "7e9af23c4d8769e855436c950c52874ef9d5ac0c36f24531913b3ca965d6860f"
+    },
+    "tests/helpers.py": {
+      "bytes": 1487,
+      "sha256": "00d200b0113faa32060278469e06307b3b0423b5019ff4034a627c8c44c2fdb7"
+    },
+    "tests/test_application.py": {
+      "bytes": 2761,
+      "sha256": "a3c2785fddfeaac5c6a0bbb86f9fa990cbb0fc77fb9c98cf0685011cbc80c8be"
+    },
+    "tests/test_config.py": {
+      "bytes": 1593,
+      "sha256": "402bbba09397ce0b63c4b2ec0ba526437492bc6c3d29b8408ff4010d79beb19a"
+    },
+    "tests/test_deploy.py": {
+      "bytes": 4162,
+      "sha256": "6640ac98aeb3a41307ae6413cfd602f136f937dfab4ca1c9600abab4046ca647"
+    },
+    "tests/test_domain.py": {
+      "bytes": 1159,
+      "sha256": "d00b23ed4a25d4b290f8b0842d1e28893e9397eb82a134358204251c8317d82b"
+    },
+    "tests/test_heartbeat_process.py": {
+      "bytes": 3844,
+      "sha256": "8ef9e225470b5ec1ed5a3f8d2a6c96916bb73b215ac6a2119ba7d1f025e4b5cb"
+    },
+    "tests/test_openalex_article_trial.py": {
+      "bytes": 1672,
+      "sha256": "ac08013938cecf4276faec23ab326114c7221e39dc757339a48dc531c9cd4da2"
+    },
+    "tests/test_openalex_bulk_probe.py": {
+      "bytes": 3995,
+      "sha256": "42e4b59375fc672931cd84f69a60940c10cd757c54d9562635081691ad96c87f"
+    },
+    "tests/test_openalex_catalog.py": {
+      "bytes": 33050,
+      "sha256": "bf51df95b725f36122fe8c200f8998bbfa79b3a08e0338f41646586a601a665a"
+    },
+    "tests/test_openalex_increment.py": {
+      "bytes": 4003,
+      "sha256": "335024b2e23097b1ada395ae728d8058addc85e3e7bbdf6e8153e0b6e0fba2a0"
+    },
+    "tests/test_openalex_increment_sqlite.py": {
+      "bytes": 668,
+      "sha256": "a0be6a3e9024953ef34c2d53155a3245faf87942b57a72dfc40259b62960ed71"
+    },
+    "tests/test_providers.py": {
+      "bytes": 3410,
+      "sha256": "dffc1c4e826787985d3809b6567ee52ef5405f9f5ca01566560159045fb9a2d6"
+    },
+    "tests/test_sqlite_cache.py": {
+      "bytes": 1579,
+      "sha256": "cce76a9bde2d8b938e4a34538981feb849af4987a462b1e370f5f7d4f279cb39"
+    },
+    "tests/test_web.py": {
+      "bytes": 2949,
+      "sha256": "44fe172106925c48f0e4d798ab94bc7ecbc6d07bec6cee98a83e664a69e01f18"
+    },
+    "tests/test_xradar.py": {
+      "bytes": 1402,
+      "sha256": "6dfaeb56daf0fb16aef3cc4fbbd91a166ef3ccd9a6c34342e373559c37b816bb"
+    },
+    "xradar/__init__.py": {
+      "bytes": 27014,
+      "sha256": "2e3b8afcb6d960c2579353a604693bf8af7e5dc13964c137fc30427b79b13ddd"
+    },
+    "xradar/profiling.py": {
+      "bytes": 5429,
+      "sha256": "196b845cc2cfbeeae03ac213508336b00cbdbe22d6d6ef81314a1bffc797641b"
+    }
+  }
+}

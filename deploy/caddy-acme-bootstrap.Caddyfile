@@ -1,0 +1,11 @@
+# Bootstrap only: serve HTTP-01 before the first IP certificate exists.
+http://198.51.100.10 {
+	handle /.well-known/acme-challenge/* {
+		root * /var/www/letsencrypt
+		file_server
+	}
+
+	handle {
+		respond "certificate bootstrap in progress" 503
+	}
+}

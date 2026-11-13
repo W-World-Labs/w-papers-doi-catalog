@@ -1,0 +1,31 @@
+[Unit]
+Description=Download and index the full OpenAlex snapshot
+After=network-online.target
+Wants=network-online.target
+RequiresMountsFor=/mnt/md0/openalex /mnt/main/w-papers-openalex
+AssertPathIsMountPoint=/mnt/md0
+AssertPathIsMountPoint=/mnt/main
+
+[Service]
+Type=oneshot
+User=w-openalex-catalog
+Group=w-openalex-catalog
+WorkingDirectory=/opt/w/apps/w-papers-doi-catalog
+EnvironmentFile=/etc/w/w-papers-openalex.service.env
+ExecStartPre=/usr/bin/mountpoint -q /mnt/md0
+ExecStartPre=/usr/bin/mountpoint -q /mnt/main
+ExecStart=/opt/w/apps/w-papers-doi-catalog/.venv/bin/python -m app.openalex_snapshot sync
+Restart=on-failure
+RestartSec=15min
+TimeoutStartSec=infinity
+TimeoutStopSec=30
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/mnt/md0/openalex /mnt/main/w-papers-openalex
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX

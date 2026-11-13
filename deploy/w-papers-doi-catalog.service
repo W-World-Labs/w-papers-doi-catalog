@@ -1,0 +1,28 @@
+[Unit]
+Description=W Papers DOI Catalog
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=w-doi-catalog
+Group=w-doi-catalog
+WorkingDirectory=/opt/w/apps/w-papers-doi-catalog
+EnvironmentFile=/etc/w/w-papers-doi-catalog.service.env
+ExecStart=/opt/w/apps/w-papers-doi-catalog/.venv/bin/python -m app.server --host ${BIND_HOST} --port ${BIND_PORT} --no-proxy-headers
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/w-data/w-papers-doi-catalog
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

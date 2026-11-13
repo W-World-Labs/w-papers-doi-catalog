@@ -1,0 +1,11 @@
+[Unit]
+Description=Twice-daily W Papers DOI Catalog IP certificate renewal
+
+[Timer]
+OnCalendar=*-*-* 00,12:17:00 UTC
+RandomizedDelaySec=20m
+Persistent=true
+Unit=w-papers-doi-cert-renew.service
+
+[Install]
+WantedBy=timers.target

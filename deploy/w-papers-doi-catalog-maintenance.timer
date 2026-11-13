@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily W Papers DOI Catalog maintenance
+
+[Timer]
+OnCalendar=*-*-* 03:17:00 UTC
+RandomizedDelaySec=15m
+Persistent=true
+Unit=w-papers-doi-catalog-maintenance.service
+
+[Install]
+WantedBy=timers.target

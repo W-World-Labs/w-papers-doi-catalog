@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ ${EUID} -ne 0 ]]; then
+    echo "w-openalex-download must run as root" >&2
+    exit 1
+fi
+
+readonly ENV_FILE=/etc/w/w-papers-openalex.service.env
+readonly APP_DIR=/opt/w/apps/w-papers-doi-catalog
+readonly PYTHON=/opt/w/apps/w-papers-doi-catalog/.venv/bin/python
+readonly SYNC_SERVICE=w-papers-openalex-sync.service
+readonly SERVICE_USER=w-openalex-catalog
+
+if [[ ! -f "$ENV_FILE" ]]; then
+    echo "OpenAlex service environment file is missing" >&2
+    exit 1
+fi
+read -r owner mode < <(/usr/bin/stat -c '%u %a' "$ENV_FILE")
+if [[ "$owner" != 0 || "$mode" != 600 ]]; then
+    echo "OpenAlex service environment file must be root-owned mode 0600" >&2
+    exit 1
+fi
+
+# This file is root-owned, mode 0600 and is the same trusted EnvironmentFile
+# used by systemd. Pass only the downloader settings to the service account.
+set -a
+. "$ENV_FILE"
+set +a
+: "${OPENALEX_CATALOG_DB:?OPENALEX_CATALOG_DB is required}"
+: "${OPENALEX_RAW_DIR:?OPENALEX_RAW_DIR is required}"
+
+cd "$APP_DIR"
+run_catalog() {
+    /usr/sbin/runuser -u "$SERVICE_USER" -- /usr/bin/env \
+        "OPENALEX_CATALOG_DB=$OPENALEX_CATALOG_DB" \
+        "OPENALEX_RAW_DIR=$OPENALEX_RAW_DIR" \
+        "OPENALEX_MIN_FREE_BYTES=${OPENALEX_MIN_FREE_BYTES:-1099511627776}" \
+        "OPENALEX_DOWNLOAD_CONNECTIONS=${OPENALEX_DOWNLOAD_CONNECTIONS:-16}" \
+        "OPENALEX_DOWNLOAD_PROXY=${OPENALEX_DOWNLOAD_PROXY:-}" \
+        "OPENALEX_DOWNLOAD_CONTROL_FILE=${OPENALEX_DOWNLOAD_CONTROL_FILE:-}" \
+        "$PYTHON" -m app.openalex_snapshot "$@"
+}
+
+run_catalog_root() {
+    /usr/bin/env -i \
+        PATH=/usr/bin:/bin \
+        "OPENALEX_CATALOG_DB=$OPENALEX_CATALOG_DB" \
+        "OPENALEX_RAW_DIR=$OPENALEX_RAW_DIR" \
+        "OPENALEX_MIN_FREE_BYTES=${OPENALEX_MIN_FREE_BYTES:-1099511627776}" \
+        "OPENALEX_DOWNLOAD_CONNECTIONS=${OPENALEX_DOWNLOAD_CONNECTIONS:-16}" \
+        "OPENALEX_DOWNLOAD_PROXY=${OPENALEX_DOWNLOAD_PROXY:-}" \
+        "OPENALEX_DOWNLOAD_CONTROL_FILE=${OPENALEX_DOWNLOAD_CONTROL_FILE:-}" \
+        "$PYTHON" -m app.openalex_snapshot "$@"
+}
+
+if [[ $# -ne 1 ]]; then
+    echo "usage: w-openalex-download {direct|proxy|status|benchmark}" >&2
+    exit 2
+fi
+case "$1" in
+    status)
+        run_catalog mode status
+        ;;
+    direct|proxy)
+        run_catalog_root mode "$1"
+        if /usr/bin/systemctl is-active --quiet "$SYNC_SERVICE"; then
+            /usr/bin/systemctl restart --no-block "$SYNC_SERVICE"
+            echo "sync restart queued; new download mode applies when the next shard starts"
+        else
+            echo "mode saved; it applies the next time the sync service runs"
+        fi
+        ;;
+    benchmark)
+        was_active=0
+        if /usr/bin/systemctl is-active --quiet "$SYNC_SERVICE"; then
+            was_active=1
+            /usr/bin/systemctl stop "$SYNC_SERVICE"
+        fi
+        cleanup() {
+            result=$?
+            trap - EXIT
+            if [[ "$was_active" == 1 ]]; then
+                /usr/bin/systemctl start --no-block "$SYNC_SERVICE" || true
+            fi
+            exit "$result"
+        }
+        trap cleanup EXIT
+        trap 'exit 130' INT
+        trap 'exit 143' TERM
+        run_catalog benchmark
+        ;;
+    *)
+        echo "usage: w-openalex-download {direct|proxy|status|benchmark}" >&2
+        exit 2
+        ;;
+esac

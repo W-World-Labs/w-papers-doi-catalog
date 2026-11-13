@@ -1,0 +1,32 @@
+[Unit]
+Description=W Papers Local OpenAlex Catalog API
+After=network.target
+RequiresMountsFor=/mnt/md0/openalex /mnt/main/w-papers-openalex
+AssertPathIsMountPoint=/mnt/md0
+AssertPathIsMountPoint=/mnt/main
+
+[Service]
+Type=simple
+User=w-openalex-catalog
+Group=w-openalex-catalog
+WorkingDirectory=/opt/w/apps/w-papers-doi-catalog
+EnvironmentFile=/etc/w/w-papers-openalex.service.env
+ExecStartPre=/usr/bin/mountpoint -q /mnt/md0
+ExecStartPre=/usr/bin/mountpoint -q /mnt/main
+ExecStart=/opt/w/apps/w-papers-doi-catalog/.venv/bin/uvicorn app.openalex_api:app --host 127.0.0.1 --port 55222 --workers 1 --no-proxy-headers
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/mnt/main/w-papers-openalex
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,60 @@
+name: Reviewed source
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: source-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      W_RADAR_CODE: ''
+      W_RADAR_API_KEY: ''
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Source and complete Git-object secret scans
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz -o "$RUNNER_TEMP/gitleaks.tar.gz"
+          echo '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  '"$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" dir . --no-banner --redact --ignore-gitleaks-allow
+          "$RUNNER_TEMP/gitleaks" git . --log-opts=--all --no-banner --redact --ignore-gitleaks-allow
+          python - <<'PY'
+          import os, pathlib, subprocess
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'git-object-payloads'
+          root.mkdir()
+          rows = subprocess.check_output(['git', 'cat-file', '--batch-all-objects', '--batch-check=%(objectname) %(objecttype) %(objectsize)']).decode().splitlines()
+          for row in rows:
+              oid, kind, size = row.split()
+              if int(size) > 100 * 1024 * 1024:
+                  raise ValueError('Unreviewed oversized Git object')
+              (root / (oid + '-' + kind)).write_bytes(subprocess.check_output(['git', 'cat-file', kind, oid]))
+          PY
+          "$RUNNER_TEMP/gitleaks" dir "$RUNNER_TEMP/git-object-payloads" --no-banner --redact --ignore-gitleaks-allow
+      - name: Install public runtime requirements and record resolution
+        run: python -m pip --isolated install --no-input --disable-pip-version-check --ignore-installed --index-url https://pypi.org/simple --report "$RUNNER_TEMP/pip-report.json" -r requirements.txt
+      - name: Original synthetic and loopback assertions
+        run: python -m unittest discover -s tests -q
+      - name: Archive exact source and Python license declarations
+        run: python scripts/source-artifact.py "$RUNNER_TEMP/pip-report.json" "$RUNNER_TEMP/source-artifact"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: w-papers-doi-catalog-source-${{ github.sha }}
+          path: ${{ runner.temp }}/source-artifact/*
+          if-no-files-found: error
+          retention-days: 7

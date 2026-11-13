@@ -1,0 +1,18 @@
+[Unit]
+Description=Renew and verify W Papers DOI Catalog IP certificate
+After=network-online.target caddy.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/opt/w/apps/w-papers-doi-catalog/deploy/renew-ip-certificate.sh
+# snap-confine must switch into Certbot's signed AppArmor profile.
+NoNewPrivileges=false
+PrivateTmp=true
+ProtectHome=read-only
+ProtectSystem=full
+ReadWritePaths=/etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt /root/snap
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
